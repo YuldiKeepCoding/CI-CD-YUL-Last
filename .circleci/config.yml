@@ -67,8 +67,8 @@ jobs:
           command: |
             source env/bin/activate
             python3 -m pytest test/test.py --cov=app --cov-report=xml:coverage-report/coverage.xml
-            coverage run -m pytest app/*.py
-            coverage html -d ./coverage-report app/*.py
+            coverage run -m pytest test/test.py
+            coverage html -d ./coverage-report app/*.py test/test.py
       - store_artifacts:
           path: coverage-report
           destination: coverage-report
