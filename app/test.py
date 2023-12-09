@@ -8,22 +8,22 @@ def test_add():
     """
     Pruebas unitarias para el método add de la clase Calculadora.
     """
-    assert Calculadora().add(1, 2) == 3
+    assert calc().add(1, 2) == 3
 
 def test_subtract():
     """
     Pruebas unitarias para el método subtract de la clase Calculadora.
     """
-    assert Calculadora().subtract(2, 1) == 1
+    assert calc().subtract(2, 1) == 1
 
 def test_multiply():
     """
     Pruebas unitarias para el método multiply de la clase Calculadora.
     """
-    assert Calculadora().multiply(1, 2) == 2
+    assert calc().multiply(1, 2) == 2
 
 def test_divide():
     """
     Pruebas unitarias para el método divide de la clase Calculadora.
     """
-    assert Calculadora().divide(0, 2.0) == 0
+    assert calc().divide(0, 2.0) == 0
