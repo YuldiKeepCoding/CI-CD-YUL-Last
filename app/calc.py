@@ -5,7 +5,7 @@ Calculadora simple para realizar operaciones matemáticas.
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
-app.config['WTF_CSRF_ENABLED'] = False # Sensitive
+app.config['WTF_CSRF_ENABLED'] = True # Sensitive
 
 @app.route('/')
 def welcome():
@@ -15,6 +15,7 @@ def welcome():
     return render_template('form.html')
 
 @app.route('/', methods=['GET', 'POST'])
+
 def index():
     """
     Ruta principal que realiza la operación matemática seleccionada y muestra el resultado.
