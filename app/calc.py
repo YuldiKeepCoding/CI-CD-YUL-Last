@@ -5,6 +5,7 @@ Calculadora simple para realizar operaciones matemáticas.
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+app.config['WTF_CSRF_ENABLED'] = False # Sensitive
 
 @app.route('/')
 def welcome():
