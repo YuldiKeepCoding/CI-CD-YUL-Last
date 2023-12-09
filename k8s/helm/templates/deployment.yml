@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "calculator-app.fullname" . }}-calcpy
+spec:
+  selector:
+    matchLabels:
+      {{- include "calculator-app.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        {{- include "calculator-app.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: yul-calcpy
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}

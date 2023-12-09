@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calc-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calc-app
+  template:
+    metadata:
+      labels:
+        app: calc-app
+    spec:
+      containers:
+      - name: yul-calcpy
+        image: yuldi8/calcpy:latest

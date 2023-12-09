@@ -1,0 +1,145 @@
+# CircleCI
+version: 2.1
+
+# Definición de valores predeterminados utilizando anclajes (&defaults)
+defaults: &defaults
+  working_directory: ~/app  # Directorio de trabajo predeterminado
+  docker:
+    - image: cimg/python:3.10  # Imagen de Docker predeterminada
+
+# Sección de órbitas
+orbs:
+  sonarcloud: sonarsource/sonarcloud@2.0.0 # SonarCloud orb for CircleCI
+  ggshield: gitguardian/ggshield@volatile # GitGuardian orb for CircleCI
+
+# Definición del trabajo calc-build
+jobs:
+  calc-build:
+    <<: *defaults  # Incluye los valores predeterminados definidos anteriormente
+    steps:
+      - checkout  # Clona el repositorio
+      - restore_cache:  # Restaura la caché de dependencias de Python
+          keys:  # Lista de claves utilizadas para buscar la caché
+            - calc-dependencies-{{ checksum "requirements.txt" }}
+            - calc-dependencies-  # Key genérica que podría usarse para recuperar una caché independientemente del contenido exacto del archivo "requirements.txt".
+      - run:
+          name: Instalar Dependencias
+          command: |
+            # Actualiza el sistema de paquetes
+            sudo apt-get update
+            # Instala python3-pip
+            sudo apt-get install python3-pip
+            # Crea un entorno virtual
+            python3 -m venv env
+            # Activa el entorno virtual
+            source env/bin/activate
+            # Instala las dependencias si el archivo requirements.txt existe
+            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+            # Actualiza pip a la última versión
+            pip install --upgrade pip
+      - save_cache:  # Guarda la caché de dependencias de Python para futuras ejecuciones
+          key: calc-dependencies-{{ checksum "requirements.txt" }}
+          paths:
+            - ./env
+      - persist_to_workspace:  # Persiste el contenido del directorio ~/app para su uso en trabajos futuros
+          root: ~/app
+          paths:
+            - .
+
+  calc-test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Tests Pytest
+          command: |
+            source env/bin/activate
+            python3 -m pytest app/test.py --html=./pytest-report/report.html
+            python3 -m pytest app/test.py --junitxml=./pytest-report/report.xml
+      - store_test_results:
+          path: pytest-report/report.xml
+      - store_artifacts:
+          path: pytest-report
+          destination: pytest-report
+      - run:
+          name: Tests Coverage
+          command: |
+            source env/bin/activate
+            python3 -m pytest app/test.py --cov=app --cov-report=xml:coverage-report/coverage.xml
+            coverage run -m pytest app/*.py
+            coverage html -d ./coverage-report app/*.py
+      - store_artifacts:
+          path: coverage-report
+          destination: coverage-report
+      - run:
+          name: Lint with Pylint
+          command: |
+            source env/bin/activate
+            pylint app/*.py
+      - sonarcloud/scan
+
+  calc-docs:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Generate Docs
+          command: |
+            # Activa el entorno virtual
+            source env/bin/activate
+            # Utiliza pdoc para generar la documentación HTML desde el archivo main.py
+            pdoc app/main.py -o ./doc-html
+      - store_artifacts:
+          path: doc-html
+          destination: doc-html
+
+  calc-deploy:
+    working_directory: ~/app
+    environment:
+      DOCKER_USERNAME: yuldi8
+    docker:
+      - image: docker:latest
+    steps:
+      - checkout
+      # Habilita el soporte de Docker en el entorno del trabajo
+      - setup_remote_docker
+      - attach_workspace:
+          at: ~/app
+      # Inicio de sesión en Docker usando las variables de entorno seguras
+      - run:
+          name: Login to Docker Hub
+          command: |
+            echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t calcpy .
+            docker tag calcpy "$DOCKER_USERNAME/calcpy:latest"
+            docker push "$DOCKER_USERNAME/calcpy:latest"
+
+workflows:
+  calc-workflow:
+    jobs:
+      - ggshield/scan:
+          name: ggshield-scan # best practice is to name each orb job
+          base_revision: << pipeline.git.base_revision >>
+          revision: <<pipeline.git.revision>>
+      - calc-build:
+          context: SonarCloud
+      - calc-test:
+          context: SonarCloud
+          requires:
+            - calc-build
+      - calc-docs:
+          context: SonarCloud
+          requires:
+            - calc-build
+      - calc-deploy:
+          requires:
+            - calc-build
+          filters:
+            branches:
+              only:
+                - main

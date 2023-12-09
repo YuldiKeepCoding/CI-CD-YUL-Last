@@ -1,0 +1,30 @@
+# Este archivo es utilizado para configurar el entorno de Python para el proyecto.
+# Es utilizado por pip para instalar los paquetes requeridos.
+# Los paquetes se instalan en el orden en que se enumeran.
+
+# Pytest se utiliza para ejecutar las pruebas
+pytest # pytest app/test.py
+
+# Pytest-cov se utiliza para generar un informe de cobertura de código con pytest
+pytest-cov # python3 -m pytest --cov=app
+
+# Pytest-html se utiliza para generar un informe HTML detallado de los resultados de las pruebas
+pytest-html # python3 -m pytest --html=./docs/app/report.html
+
+# Coverage se utiliza para generar un informe de cobertura de código
+coverage # coverage run -m pytest app/test.py
+
+# Pylint se utiliza para verificar la calidad del código
+pylint # pylint app/main.py
+
+# Pdoc se utiliza para generar documentación automática
+pdoc # pdoc app/main.py -o ./docs
+
+# Biblioteca de Python que proporciona herramientas para empaquetar y distribuir proyectos.
+packaging
+
+# El comando 'build' se utiliza para construir el paquete de distribución de la aplicación
+build # python3 -m build
+
+# El comando 'flask' se utiliza para ejecutar la aplicación web
+flask
