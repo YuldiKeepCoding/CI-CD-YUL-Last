@@ -8,12 +8,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def welcome():
+    """
+    Ruta de inicio que muestra el formulario para ingresar números y seleccionar una operación.
+    """
     return render_template('form.html')
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     """
-    Comentarios
+    Ruta principal que realiza la operación matemática seleccionada y muestra el resultado.
     """
     # Se inicia en 1 (add)
     operation = 1
@@ -25,16 +28,17 @@ def index():
     num2 = float(request.form["num2"])
     operation = int(request.form["operation"])
 
-    if(operation == 1):
+    if operation == 1:
         result = add(num1, num2)
-    elif(operation == 2):
+    elif operation == 2:
         result = subtract(num1, num2)
-    elif(operation == 3):
+    elif operation == 3:
         result = multiply(num1, num2)
-    elif(operation == 4):
+    elif operation == 4:
         result = divide(num1, num2)
     else:
         result = 0
+
     entry = result
     return render_template('form.html', entry=entry)
 
@@ -43,11 +47,11 @@ def add(num1, num2):
     Realiza la operación de suma.
 
     Args:
-        num1 (int): Primer número.
-        num2 (int): Segundo número.
+        num1 (float): Primer número.
+        num2 (float): Segundo número.
 
     Returns:
-        int: Resultado de la suma.
+        float: Resultado de la suma.
     """
     return num1 + num2
 
@@ -56,11 +60,11 @@ def subtract(num1, num2):
     Realiza la operación de resta.
 
     Args:
-        num1 (int): Número del que se resta.
-        num2 (int): Número que se resta.
+        num1 (float): Número del que se resta.
+        num2 (float): Número que se resta.
 
     Returns:
-        int: Resultado de la resta.
+        float: Resultado de la resta.
     """
     return num1 - num2
 
@@ -69,11 +73,11 @@ def multiply(num1, num2):
     Realiza la operación de multiplicación.
 
     Args:
-        num1 (int): Primer número.
-        num2 (int): Segundo número.
+        num1 (float): Primer número.
+        num2 (float): Segundo número.
 
     Returns:
-        int: Resultado de la multiplicación.
+        float: Resultado de la multiplicación.
     """
     return num1 * num2
 
@@ -82,15 +86,12 @@ def divide(num1, num2):
     Realiza la operación de división.
 
     Args:
-        num1 (int): Número dividendo.
-        num2 (int): Número divisor.
+        num1 (float): Número dividendo.
+        num2 (float): Número divisor.
 
     Returns:
         float or str: Resultado de la división o mensaje de error si el divisor es 0.
     """
     if num2 == 0:
-        return 'Cannot divide by 0'
-    return num1 * 1.0 / num2
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        return 'No se puede dividir por 0'
+    return num1 / num2
