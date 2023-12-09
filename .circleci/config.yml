@@ -89,8 +89,8 @@ jobs:
           command: |
             # Activa el entorno virtual
             source env/bin/activate
-            # Utiliza pdoc para generar la documentación HTML desde el archivo main.py
-            pdoc app/main.py -o ./doc-html
+            # Utiliza pdoc para generar la documentación HTML desde el archivo calc.py
+            pdoc app/calc.py -o ./doc-html
       - store_artifacts:
           path: doc-html
           destination: doc-html
