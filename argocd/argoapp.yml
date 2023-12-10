@@ -1,21 +1,21 @@
-# Config file for ArgoCD
+# Archivo de configuración de ArgoCD
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: yul-calc # Name of the application in ArgoCD
-  namespace: argocd # Namespace where ArgoCD is installed
+  name: yul-calc
+  namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io # Finalizer for ArgoCD
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: default # Namespace where the application will be deployed
-    server: https://kubernetes.default.svc # Kubernetes API server URL
-  project: default # Project where the application will be deployed
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
   source:
-    path: k8s # Path to the application manifests in the Git repository
-    repoURL: https://github.com/YuldiKeepCoding/CI-CD-YUL-Last.git # Git repository URL
-    targetRevision: main # Git branch to deploy from the repository (main by default)
-  syncPolicy: # Sync policy for the application
+    path: k8s
+    repoURL: https://github.com/YuldiKeepCoding/CI-CD-YUL-Last.git
+    targetRevision: main
+  syncPolicy:
     automated:
       prune: false
       selfHeal: false

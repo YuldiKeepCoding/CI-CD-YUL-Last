@@ -1,4 +1,3 @@
-# Values file for ArgoCD configuration in the cluster by Helm chart
 configs:
   params:
     server.insecure: true
@@ -6,7 +5,7 @@ configs:
     resource.compareoptions: |
       ignoreAggregatedRoles: true
       ignoreResourceStatusField: all
-    url: http://192.168.1.39/argocd
+    url: http://localhost/argocd
     application.instanceLabelKey: argocd.argoproj.io/instance
 server:
   insecure: true
