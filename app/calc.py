@@ -15,17 +15,13 @@ def welcome():
     return render_template('form.html')
 
 @app.route('/', methods=['GET', 'POST'])
-
 def index():
     """
     Ruta principal que realiza la operación matemática seleccionada y muestra el resultado.
     """
     # Se inicia en 1 (add)
     operation = 1
-
-    # Se inicia en None
-    result = None
-
+    
     num1 = float(request.form["num1"])
     num2 = float(request.form["num2"])
     operation = int(request.form["operation"])
@@ -38,11 +34,7 @@ def index():
         result = multiply(num1, num2)
     elif operation == 4:
         result = divide(num1, num2)
-    else:
-        result = 0
-
-    entry = result
-    return render_template('form.html', entry=entry)
+    return render_template('form.html', result=result)
 
 def add(num1, num2):
     """
@@ -95,5 +87,5 @@ def divide(num1, num2):
         float or str: Resultado de la división o mensaje de error si el divisor es 0.
     """
     if num2 == 0:
-        return 'No se puede dividir por 0'
+        return 'NONE'
     return num1 / num2

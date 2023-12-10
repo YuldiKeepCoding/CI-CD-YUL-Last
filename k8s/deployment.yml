@@ -15,3 +15,5 @@ spec:
       containers:
       - name: yul-calcpy
         image: yuldi8/calcpy:latest
+        ports:
+          - containerPort: 5000

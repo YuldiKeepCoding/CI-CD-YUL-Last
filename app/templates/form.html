@@ -44,14 +44,14 @@
                 			<input type="submit" class="btn btn-success" value="Submit">
             			</div>
 					</div>
+					{% if result %}
 					<div class="form-group">
 						<label class="control-label col-xs-3">Result :</label>
 						<div class="col-xs-7">
-						{% if entry %}
-							<input type="text" name="result" class="form-control" placeholder={{ entry }}>
-						{% endif %}						
+							<input type="text" name="result" class="form-control" placeholder={{ result }}>
 						</div>
 					</div>
+					{% endif %}						
         		</form>
         	</div>
         	<div class="col-md-4"></div></div>

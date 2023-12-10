@@ -13,7 +13,7 @@ spec:
   project: default # Project where the application will be deployed
   source:
     path: k8s # Path to the application manifests in the Git repository
-    repoURL: https://github.com/YuldiKeepCoding/CI-CD-YUL.git # Git repository URL
+    repoURL: https://github.com/YuldiKeepCoding/CI-CD-YUL-Last.git # Git repository URL
     targetRevision: main # Git branch to deploy from the repository (main by default)
   syncPolicy: # Sync policy for the application
     automated:
