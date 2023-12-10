@@ -1,9 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: calc-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+  name: calc-ingress
 spec:
   ingressClassName: nginx
   rules:
