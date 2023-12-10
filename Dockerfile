@@ -16,5 +16,8 @@ COPY app .
 # Expone el puerto 5000 para la app flask
 EXPOSE 5000
 
+# Variable de entorno para Flask
+ENV FLASK_APP=calculator.py
+
 # Comando que se ejecutará cuando se inicie el contenedor
 CMD ["flask", "run", "--host=0.0.0.0"]

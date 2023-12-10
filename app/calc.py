@@ -21,7 +21,6 @@ def index():
     """
     # Se inicia en 1 (add)
     operation = 1
-    
     num1 = float(request.form["num1"])
     num2 = float(request.form["num2"])
     operation = int(request.form["operation"])
