@@ -17,6 +17,6 @@ service:
 
 ingress:
   enabled: true
-  className: ""
+  className: "nginx"
   
 
