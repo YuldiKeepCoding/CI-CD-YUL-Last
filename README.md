@@ -8,11 +8,9 @@ La parte de **CICD** se realiza con **CircleCI** usando un **pipeline ( .yml )**
 Se somete a test con **pytest** y para la cobertura se usa **pytest-cov**. Para el linting de la aplicación se usa **pylint**.
 Finalmente se realiza un análisis estático del código mediante SonarCloud.
 
-## Video CI/CD (Youtube)
+## Video CI/CD (Loom)
 
-[![Video Demo CI/CD Project](images/video.png)](https://youtu.be/FPtVnZtDDOU)
-
-<video src="images/CICD.mp4" controls title="CI/CD-VIDEO DEMO"></video>
+[![Video Demo CI/CD Project](./pics/video.png)](https://www.loom.com/share/995a657881424b2a9f7e53ce24c39c5b)
 
 ## Estructura del Repositorio
 
